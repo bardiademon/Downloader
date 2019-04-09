@@ -1,5 +1,8 @@
+
+@bardiademon
 class GetSize
 {
+    @bardiademon
     static String Get (long Byte)
     {
         float kb = (float) Byte / 1024;
@@ -19,6 +22,7 @@ class GetSize
         else return toString (kb);
     }
 
+    @bardiademon
     private static String toString (double size)
     {
         return String.format ("%.3f" , size);

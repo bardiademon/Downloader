@@ -4,6 +4,7 @@
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+@bardiademon
 public class ConvertTime
 {
 
@@ -13,6 +14,7 @@ public class ConvertTime
     private String weekFa;
     private String weekInt;
 
+    @bardiademon
     public ConvertTime (String time)
     {
         date = new Date(Long.parseLong(time) * 1000L);
@@ -38,19 +40,21 @@ public class ConvertTime
         return String.valueOf((h < 10) ? "0" + h : h);
     }
 
+    @bardiademon
     public String hour24 ()
     {
         int H = Integer.parseInt(new SimpleDateFormat("H").format(date));
         return String.valueOf((H < 10) ? "0" + H : H);
     }
 
-
+    @bardiademon
     public String minutes ()
     {
         int m = Integer.parseInt(new SimpleDateFormat("m").format(date));
         return String.valueOf((m < 10) ? "0" + m : m);
     }
 
+    @bardiademon
     public String second ()
     {
         int s = Integer.parseInt(new SimpleDateFormat("s").format(date));
@@ -58,46 +62,55 @@ public class ConvertTime
 
     }
 
+    @bardiademon
     public String dayInt ()
     {
         return weekInt;
     }
 
+    @bardiademon
     public String nameDay ()
     {
         return weekFa;
     }
 
+    @bardiademon
     public String year ()
     {
         return dateIr[0];
     }
 
+    @bardiademon
     public String monInt ()
     {
         return dateIr[1];
     }
 
+    @bardiademon
     public String monthName ()
     {
         return monFa(Integer.parseInt(monInt()));
     }
 
+    @bardiademon
     public String dayOnMonth ()
     {
         return dateIr[2];
     }
 
+    @bardiademon
     public String weekOnMonth ()
     {
         return new SimpleDateFormat("W").format(date);
     }
 
+    @bardiademon
     public String weekOnYear ()
     {
         return new SimpleDateFormat("w").format(date);
     }
 
+    @bardiademon
     private void weekFa (String week)
     {
         switch (week)
@@ -145,6 +158,7 @@ public class ConvertTime
         }
     }
 
+    @bardiademon
     private String monFa (int mon)
     {
         switch (mon)
@@ -189,6 +203,7 @@ public class ConvertTime
         }
     }
 
+    @bardiademon
     private String[] gregorian_to_jalali (int gy, int gm, int gd)
     {
         int[] g_d_m = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};

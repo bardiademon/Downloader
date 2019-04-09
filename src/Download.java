@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@bardiademon
 public class Download extends Thread
 {
     private static final int PROGRESS_SHOW = 5; // Progress / PROGRESS_SHOW;
@@ -47,6 +48,7 @@ public class Download extends Thread
         }
     }
 
+    @bardiademon
     private void listDownload () throws IOException, InterruptedException
     {
         List <String> links = new ArrayList <> ();
@@ -106,12 +108,14 @@ public class Download extends Thread
         else throw new IOException ("Error select path save file");
     }
 
+    @bardiademon
     private String getTime ()
     {
         ConvertTime convertTime = new ConvertTime (String.valueOf (System.currentTimeMillis () / 1000));
         return String.format ("%s:%s:%s" , convertTime.hour24 () , convertTime.minutes () , convertTime.second ());
     }
 
+    @bardiademon
     private String progress (int progress)
     {
         int progressForShow = (progress / PROGRESS_SHOW);
@@ -126,6 +130,7 @@ public class Download extends Thread
         return finalProgress.toString ();
     }
 
+    @bardiademon
     private void time ()
     {
         new Thread (() ->
@@ -160,6 +165,7 @@ public class Download extends Thread
         }).start ();
     }
 
+    @bardiademon
     private String okTime ()
     {
         return String.format (
@@ -170,6 +176,7 @@ public class Download extends Thread
         );
     }
 
+    @bardiademon
     private void download (String link , boolean question , File fileSave) throws IOException
     {
         URL url = new URL (link);
@@ -248,6 +255,7 @@ public class Download extends Thread
         }
     }
 
+    @bardiademon
     private File getLocation (String nameTypeFile , boolean justDir)
     {
         System.out.print ("Location save file: ");

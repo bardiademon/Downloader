@@ -1,5 +1,8 @@
+
+@bardiademon
 class StringSpeedDownload
 {
+    @bardiademon
     static String Get (long Byte)
     {
         float kb = (float) Byte / 1024;
