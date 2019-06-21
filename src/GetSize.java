@@ -25,6 +25,6 @@ class GetSize
     @bardiademon
     private static String toString (double size)
     {
-        return String.format ("%.3f" , size);
+        return String.format ("%.3f" , Math.abs (size));
     }
 }
