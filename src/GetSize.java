@@ -14,10 +14,7 @@ class GetSize
                 float gb = mb / 1024;
                 return String.format ("%s GB" , toString (gb));
             }
-            else
-            {
-                return String.format ("%s MB" , toString (mb));
-            }
+            else return String.format ("%s MB" , toString (mb));
         }
         else return toString (kb);
     }

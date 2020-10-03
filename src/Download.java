@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JFileChooser;
 
 import org.apache.commons.io.FilenameUtils;
@@ -28,6 +30,10 @@ public class Download extends Thread
     private String argLink, argLocationSave;
     private boolean argMkDir, argLastLocIsFile;
 
+    private final static int MAX_RETRY = 10, SLEEP_FOR_RETRY = 2000;
+
+    private Timer timer;
+
     Download (String Link , String LocationSave , boolean MkDir , boolean LastLocIsFile)
     {
         argLink = Link;
@@ -43,7 +49,6 @@ public class Download extends Thread
         runClass ();
     }
 
-
     private void runClass ()
     {
         while (true)
@@ -57,9 +62,9 @@ public class Download extends Thread
                     listDownload ();
                 else
                 {
-                    boolean okArgLocationSave = false;
+                    boolean okArgLocationSave;
                     if ((okArgLocationSave = isOkArgLocationSave ()))
-                        System.out.println ("Location save file: " + argLocationSave);
+                        print ("Location save file: " + argLocationSave + "\n");
                     download = true;
                     time ();
 
@@ -67,22 +72,22 @@ public class Download extends Thread
                     else download (link , true , null);
 
                     download = false;
-                    System.out.println (" " + getTime () + " | " + okTime () + "\n");
+                    print (" " + getTime () + " | " + okTime () + "\n\n");
                 }
             }
-            catch (IOException | InterruptedException e)
+            catch (Exception e)
             {
-                System.err.println ("\nDownload error => " + e.getMessage ());
+                print ("\nDownload error => " + e.getMessage () + "\n");
             }
         }
     }
 
     private String getLink () throws IOException
     {
-        System.out.print ("Link: ");
+        print ("Link: ");
         if (isOkArgLink ())
         {
-            System.out.println (argLink);
+            print (argLink + "\n");
             return argLink;
         }
         else
@@ -113,12 +118,8 @@ public class Download extends Thread
                 {
                     try
                     {
-                        if (type.isEmpty ())
-                        {
-                            if (!argLastLocIsFile) return file.mkdirs ();
-                            else return file.getParentFile ().mkdirs () && file.createNewFile ();
-                        }
-                        else return file.getParentFile ().mkdirs () && file.createNewFile ();
+                        if (type.isEmpty () && !argLastLocIsFile) return file.mkdirs ();
+                        else return (file.getParentFile ().mkdirs () && file.createNewFile ());
                     }
                     catch (IOException ignored)
                     {
@@ -132,57 +133,50 @@ public class Download extends Thread
     }
 
     @bardiademon
-    private void listDownload () throws IOException, InterruptedException
+    private void listDownload () throws Exception
     {
-        List<String> links = new ArrayList<> ();
+        List <String> links = new ArrayList <> ();
         String link;
         int counter = 1;
-        System.out.print ("Link " + (counter++) + ": ");
+        print ("Link " + (counter++) + ": ");
         while (!(link = readerLink.readLine ()).equals ("flush"))
         {
             links.add (link);
-            System.out.print ("Link " + (counter++) + ": ");
+            print ("Link " + (counter++) + ": ");
         }
-        List<String> listName = new ArrayList<> ();
-        System.out.println ();
+        List <String> listName = new ArrayList <> ();
+        print ("\n");
         for (String oneLink : links)
         {
             URL url = new URL (oneLink);
             String name = FilenameUtils.getName (url.getPath ());
             listName.add (name);
-            System.out.println (name + ": " + GetSize.Get (Long.parseLong (url.openConnection ().getHeaderField ("Content-length"))));
+            print (name + ": " + GetSize.Get (Long.parseLong (url.openConnection ().getHeaderField ("Content-length"))) + "\n");
         }
-        System.out.println ();
-        System.out.print ("Start Download " + links.size () + " Files (y/n): ");
+        print ("\n");
+        print ("Start Download " + links.size () + " Files (y/n): ");
         if (readerLink.readLine ().toLowerCase ().equals ("y"))
         {
             File fileSave = getLocation (null , true);
             if (fileSave != null)
             {
-
-                System.out.println ();
+                print ("\n");
                 String oneLink, name;
-                for (int i = 0 ; i < links.size () ; i++)
+                for (int i = 0; i < links.size (); i++)
                 {
                     oneLink = links.get (i);
                     name = listName.get (i);
-                    System.out.println ("=================================");
-                    System.out.println ("Start download " + name + " || " + getTime ());
+                    print ("=================================\n");
+                    print ("Start download " + name + " || " + getTime () + "\n");
 
                     download = true;
                     time ();
-                    try
-                    {
-                        download (oneLink , false , new File (fileSave.getPath () + File.separator + name));
-                        System.out.println (" " + getTime () + " | " + okTime ());
-                        System.out.println ("=================================\n");
-                    }
-                    catch (IOException e)
-                    {
-                        System.out.println ("Error download " + name + " => " + e.getMessage ());
-                    }
+
+                    download (oneLink , false , new File (fileSave.getPath () + File.separator + name));
+                    print (" " + getTime () + " | " + okTime () + "\n");
+                    print ("=================================\n\n");
+
                     download = false;
-                    Thread.sleep (1000);
                 }
                 Desktop.getDesktop ().open (fileSave.getParentFile ());
                 runClass ();
@@ -207,10 +201,9 @@ public class Download extends Thread
         StringBuilder finalProgress;
         finalProgress = new StringBuilder ();
         finalProgress.append (START_SHOW_PROGRESS);
-        for (int i = 0 ; i < progressForShow ; i++)
-            finalProgress.append (VIEW_PROGRESS);
+        for (int i = 0; i < progressForShow; i++) finalProgress.append (VIEW_PROGRESS);
         int spaceToFinal = Math.abs ((100 / PROGRESS_SHOW) - progressForShow);
-        for (int i = 0 ; i < spaceToFinal - 1 ; i++)
+        for (int i = 0; i < spaceToFinal - 1; i++)
             finalProgress.append (" ");
         finalProgress.append (END_SHOW_PROGRESS);
         finalProgress.append (String.format (" %d%%" , progress));
@@ -220,12 +213,13 @@ public class Download extends Thread
     @bardiademon
     private void time ()
     {
-        new Thread (() ->
+        sec = 0;
+        min = 0;
+        h = 0;
+        (timer = new Timer ()).schedule (new TimerTask ()
         {
-            sec = 0;
-            min = 0;
-            h = 0;
-            while (true)
+            @Override
+            public void run ()
             {
                 sec++;
                 if (sec > 59)
@@ -239,19 +233,10 @@ public class Download extends Thread
                     min = 0;
                     sec = 0;
                 }
-                if (!download)
-                    return;
-                try
-                {
-                    Thread.sleep (1000);
-                }
-                catch (InterruptedException ignored)
-                {
-                }
-                if (!download)
-                    return;
+
+                if (!download) timer.cancel ();
             }
-        }).start ();
+        } , 1000 , 1000);
     }
 
     @bardiademon
@@ -262,34 +247,26 @@ public class Download extends Thread
     }
 
     @bardiademon
-    private void download (String link , boolean question , File fileSave) throws IOException
+    private void download (String link , boolean question , File fileSave) throws Exception
     {
-        System.out.print ("Connecting...");
+        print ("Connecting...");
 
         URL url = new URL (link);
-        HttpURLConnection connection = null;
-        long sizeFile = 0;
-        try
-        {
-            connection = (HttpURLConnection) url.openConnection ();
-            connection.connect ();
-            sizeFile = Long.parseLong (connection.getHeaderField ("Content-length"));
+        HttpURLConnection connection;
+        long sizeFile;
 
-            System.out.format ("\rSize file : %s\n" , GetSize.Get (sizeFile));
-        }
-        catch (Exception e)
-        {
-            System.err.println ("\rFailed to connect");
-            if (question) System.exit (0);
-            else return;
-        }
+        connection = (HttpURLConnection) url.openConnection ();
+        connection.connect ();
+        sizeFile = Long.parseLong (connection.getHeaderField ("Content-length"));
+
+        print (String.format ("\rSize file : %s\n" , GetSize.Get (sizeFile)));
 
         boolean download;
 
         if (question)
         {
             BufferedReader readerDownloadYesNo = new BufferedReader (new InputStreamReader (System.in));
-            System.out.print ("Download this file (y,n)? ");
+            print ("Download this file (y,n)? ");
             download = readerDownloadYesNo.readLine ().toLowerCase ().equals ("y");
         }
         else download = true;
@@ -298,11 +275,11 @@ public class Download extends Thread
         {
             String nameTypeFile = FilenameUtils.getName (link);
 
-            System.out.println (nameTypeFile);
+            print (nameTypeFile + "\n");
 
             if (fileSave == null)
             {
-                System.out.print ("Location save file: ");
+                print ("Location save file: ");
                 fileSave = getLocation (nameTypeFile , false);
             }
             else if (fileSave.isDirectory ())
@@ -317,39 +294,67 @@ public class Download extends Thread
                 FileOutputStream fileOutputStream = new FileOutputStream (fileSave);
 
                 int lenHere = 0;
-                int len, lenInSec = 0, allDl = 0;
+
+                int len;
+                long lenInSec = 0, allDl = 0;
                 float min;
                 int max = 0;
                 long startRead, endRead;
                 double second, secTemp = 0;
                 String strSpeedDownload = "0 KB/s";
+                // If the download fails
+                int retry = 0;
+                boolean isRetry = false;
                 while (true)
                 {
-                    startRead = System.nanoTime ();
-                    len = inputStream.read (buffer);
-                    if (len <= 0)
-                        break;
-                    endRead = System.nanoTime ();
-                    second = (endRead - startRead) / 1_000_000_000.0;
-                    secTemp += second;
-                    fileOutputStream.write (buffer , 0 , len);
-
-                    lenHere += len;
-                    allDl += len;
-                    lenInSec += len;
-
-                    min = ((float) lenHere / sizeFile) * 100;
-
-                    if ((int) min > max)
-                        max = (int) min;
-                    if (secTemp >= 1)
+                    if (isRetry)
                     {
-                        strSpeedDownload = StringSpeedDownload.Get (lenInSec);
-                        lenInSec = 0;
-                        secTemp = 0;
+                        print ("\rcontinue Download");
+                        isRetry = false;
                     }
-                    System.out.printf ("\r %s || %s || %s || %s " , progress (max) , GetSize.Get (allDl) , strSpeedDownload ,
-                            okTime ());
+                    try
+                    {
+                        startRead = System.nanoTime ();
+                        len = inputStream.read (buffer);
+                        if (len <= 0)
+                            break;
+                        endRead = System.nanoTime ();
+                        second = (endRead - startRead) / 1_000_000_000.0;
+                        secTemp += second;
+                        fileOutputStream.write (buffer , 0 , len);
+
+                        lenHere += len;
+                        allDl += len;
+                        lenInSec += len;
+
+                        min = ((float) lenHere / sizeFile) * 100;
+
+                        if ((int) min > max)
+                            max = (int) min;
+                        if (secTemp >= 1)
+                        {
+                            strSpeedDownload = StringSpeedDownload.Get (lenInSec);
+                            lenInSec = 0;
+                            secTemp = 0;
+                        }
+                        print (String.format ("\r %s || %s || %s || %s " , progress (max) , GetSize.Get (allDl) , strSpeedDownload ,
+                                okTime ()));
+                    }
+                    catch (Exception e)
+                    {
+                        print ("\rDownload Error\n");
+
+                        if (retry < MAX_RETRY)
+                        {
+                            print ("Wait for continue? y/n");
+                            if (!new BufferedReader (new InputStreamReader (System.in)).readLine ().equals ("y"))
+                                throw e;
+                        }
+
+                        waitRetry ();
+                        retry++;
+                        isRetry = true;
+                    }
                 }
                 fileOutputStream.flush ();
                 fileOutputStream.close ();
@@ -357,7 +362,7 @@ public class Download extends Thread
                 connection.disconnect ();
                 if (question)
                 {
-                    System.out.println ("\rDownload complete.");
+                    print ("\rDownload complete.\n");
                     Desktop.getDesktop ().open (fileSave.getParentFile ());
 
                     argLastLocIsFile = false;
@@ -368,14 +373,14 @@ public class Download extends Thread
                     runClass ();
                 }
                 else
-                    System.out.print ("\rDownloaded " + FilenameUtils.getName (fileSave.getPath ()) + ".");
+                    print ("\rDownloaded " + FilenameUtils.getName (fileSave.getPath ()) + ".");
             }
             else
                 throw new IOException ("Error select path save file");
         }
         else
         {
-            System.err.println ("Cancel download.");
+            print ("Cancel download.\n");
             System.exit (0);
         }
     }
@@ -392,9 +397,41 @@ public class Download extends Thread
         if (chooser.showSaveDialog (null) == JFileChooser.OPEN_DIALOG && (fileSave = chooser.getSelectedFile ()) != null
                 && fileSave.getParentFile () != null)
         {
-            System.out.println (fileSave.getPath ());
+            print (fileSave.getPath () + "\n");
             return fileSave;
         }
         return null;
     }
+
+    private boolean threadOnWait = true;
+    private int counterWait = 0;
+
+    private void waitRetry ()
+    {
+        String str = "Wait for retry ";
+        counterWait = Download.SLEEP_FOR_RETRY / 1000;
+        print (str);
+        try
+        {
+            new Thread (() ->
+            {
+                while (true)
+                {
+                    if (!threadOnWait || counterWait <= 0) break;
+                    else print ("\r" + str + " " + --counterWait);
+                }
+            }).start ();
+            Thread.sleep (Download.SLEEP_FOR_RETRY);
+            threadOnWait = false;
+        }
+        catch (InterruptedException ignored)
+        {
+        }
+    }
+
+    private void print (String str)
+    {
+        System.out.print (str);
+    }
+
 }
