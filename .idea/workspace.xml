@@ -7,10 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85f21288-a658-425c-8019-1966c9b2411c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/commons_io_2_6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Download1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Download1_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Download1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Download1.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Download1_jar/Download1.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/ConvertTime.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/Dl.class" beforeDir="false" />
@@ -19,10 +16,8 @@
       <change beforePath="$PROJECT_DIR$/out/production/Download1/META-INF/MANIFEST.MF" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/StringSpeedDownload.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/bardiademon.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Download.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GetSize.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GetSize.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StringSpeedDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/StringSpeedDownload.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,11 +72,12 @@
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="download" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554834831562" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons-io-2.6.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -112,15 +108,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -195,41 +189,16 @@
       <workItem from="1585036648148" duration="136000" />
       <workItem from="1585038651149" duration="1491000" />
       <workItem from="1600794131952" duration="1630000" />
-      <workItem from="1601700739376" duration="122000" />
+      <workItem from="1601700739376" duration="778000" />
+      <workItem from="1601701807255" duration="10000" />
+      <workItem from="1606326829680" duration="1449000" />
+      <workItem from="1622367574472" duration="1935000" />
+      <workItem from="1622447334962" duration="1524000" />
+      <workItem from="1622452168812" duration="1775000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="249" y="0" key="#Project_Structure" timestamp="1600795601032">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="249" y="0" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1600795601032" />
-    <state x="499" y="202" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1600795593716">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="499" y="202" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1600795593716" />
-    <state x="312" y="153" key="FileChooserDialogImpl" timestamp="1600795582222">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="312" y="153" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1600795582222" />
-    <state width="1495" height="211" key="GridCell.Tab.0.bottom" timestamp="1600795779988">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1495" height="211" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1600795779988" />
-    <state width="1495" height="211" key="GridCell.Tab.0.center" timestamp="1600795779988">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1495" height="211" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1600795779988" />
-    <state width="1495" height="211" key="GridCell.Tab.0.left" timestamp="1600795779987">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1495" height="211" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1600795779987" />
-    <state width="1495" height="211" key="GridCell.Tab.0.right" timestamp="1600795779988">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1495" height="211" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1600795779988" />
   </component>
 </project>

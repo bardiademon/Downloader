@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import java.util.List;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -242,8 +245,12 @@ public class Download extends Thread
     @bardiademon
     private String okTime ()
     {
-        return String.format ("%s:%s:%s" , (h < 10) ? "0" + h : h , (min < 10) ? "0" + min : min ,
-                (sec < 10) ? "0" + sec : sec);
+        return String.format ("%s:%s:%s" , zeroPlus (h) , zeroPlus (min) , zeroPlus (sec));
+    }
+
+    private String zeroPlus (final int num)
+    {
+        return ((num < 10) ? "0" + num : String.valueOf (num));
     }
 
     @bardiademon
@@ -251,39 +258,49 @@ public class Download extends Thread
     {
         print ("Connecting...");
 
-        URL url = new URL (link);
+        final URL url = new URL (link);
         HttpURLConnection connection;
         long sizeFile;
 
         connection = (HttpURLConnection) url.openConnection ();
         connection.connect ();
+
         sizeFile = Long.parseLong (connection.getHeaderField ("Content-length"));
 
         print (String.format ("\rSize file : %s\n" , GetSize.Get (sizeFile)));
 
         boolean download;
 
+        final BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
         if (question)
         {
-            BufferedReader readerDownloadYesNo = new BufferedReader (new InputStreamReader (System.in));
             print ("Download this file (y,n)? ");
-            download = readerDownloadYesNo.readLine ().toLowerCase ().equals ("y");
+            download = reader.readLine ().equalsIgnoreCase ("y");
         }
         else download = true;
 
         if (download)
         {
-            String nameTypeFile = FilenameUtils.getName (link);
+            String filename = FilenameUtils.getName (link);
 
-            print (nameTypeFile + "\n");
+            if (FilenameUtils.getExtension (filename).isEmpty ())
+            {
+                final String contentDisposition = connection.getHeaderField ("Content-Disposition");
+                final String filenameEquals = "filename=";
+                filename = contentDisposition.substring (contentDisposition.indexOf (filenameEquals) + filenameEquals.length ());
+
+                if (filename.isEmpty ()) filename = FilenameUtils.getName (link);
+            }
+
+            print (filename + "\n");
 
             if (fileSave == null)
             {
                 print ("Location save file: ");
-                fileSave = getLocation (nameTypeFile , false);
+                fileSave = getLocation (filename , false);
             }
             else if (fileSave.isDirectory ())
-                fileSave = new File (fileSave + File.separator + nameTypeFile);
+                fileSave = new File (fileSave + File.separator + filename);
 
             if (fileSave != null)
             {
@@ -305,6 +322,7 @@ public class Download extends Thread
                 // If the download fails
                 int retry = 0;
                 boolean isRetry = false;
+
                 while (true)
                 {
                     if (isRetry)
@@ -347,7 +365,7 @@ public class Download extends Thread
                         if (retry < MAX_RETRY)
                         {
                             print ("Wait for continue? y/n");
-                            if (!new BufferedReader (new InputStreamReader (System.in)).readLine ().equals ("y"))
+                            if (!reader.readLine ().equals ("y"))
                                 throw e;
                         }
 
@@ -386,16 +404,40 @@ public class Download extends Thread
     }
 
     @bardiademon
-    private File getLocation (String nameTypeFile , boolean justDir)
+    private File getLocation (final String nameTypeFile , final boolean justDir)
     {
-        JFileChooser chooser = new JFileChooser ();
+        final JFileChooser chooser = new JFileChooser ();
+
         if (justDir)
             chooser.setFileSelectionMode (JFileChooser.DIRECTORIES_ONLY);
         else
             chooser.setSelectedFile (new File (nameTypeFile));
+
+        final AtomicInteger openDialogResult = new AtomicInteger ();
+        SwingUtilities.invokeLater (() ->
+        {
+            openDialogResult.set (chooser.showSaveDialog (null));
+            synchronized (Download.this)
+            {
+                Download.this.notify ();
+                Download.this.notifyAll ();
+            }
+        });
+
+        synchronized (Download.this)
+        {
+            try
+            {
+                Download.this.wait ();
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace ();
+            }
+        }
+
         File fileSave;
-        if (chooser.showSaveDialog (null) == JFileChooser.OPEN_DIALOG && (fileSave = chooser.getSelectedFile ()) != null
-                && fileSave.getParentFile () != null)
+        if (openDialogResult.get () == JFileChooser.OPEN_DIALOG && (fileSave = chooser.getSelectedFile ()) != null && fileSave.getParentFile () != null)
         {
             print (fileSave.getPath () + "\n");
             return fileSave;

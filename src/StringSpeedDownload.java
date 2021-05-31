@@ -5,12 +5,12 @@ class StringSpeedDownload
     @bardiademon
     static String Get (long Byte)
     {
-        float kb = (float) Byte / 1024;
+        double kb = (double) Byte / 1024;
         if (kb >= 1024)
         {
-            float mb = (kb / 1024);
-            return String.format ("%d MB/s" , (int) mb);
+            double mb = (kb / 1024);
+            return String.format ("%.3f MB/s" , mb);
         }
-        else return String.format ("%d KB/s" , (int) kb);
+        else return String.format ("%.3f KB/s" , kb);
     }
 }
