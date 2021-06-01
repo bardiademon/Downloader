@@ -111,9 +111,7 @@ public final class Download extends Thread
             readerLink = new BufferedReader (new InputStreamReader (System.in));
             return readerLink.readLine ();
         }
-
     }
-
 
     private boolean isOkArgLink ()
     {
@@ -285,7 +283,9 @@ public final class Download extends Thread
 
         connection.connect ();
 
-        final long filesize = Long.parseLong (connection.getHeaderField ("Content-length"));
+        long filesize = Long.parseLong (connection.getHeaderField ("Content-length"));
+
+        if (downloadedSize > 0) filesize += downloadedSize;
 
         print (String.format ("\rFile size : %s\n" , GetSize.Get (filesize)));
 
@@ -325,17 +325,90 @@ public final class Download extends Thread
                 else if (fileSave.isDirectory ())
                     fileSave = new File (fileSave + File.separator + filename);
             }
-            else print ("File saving path: " + this.fileSave);
+            else print ("File saving path: " + ((fileSave == null) ? this.fileSave : fileSave));
 
             if (fileSave != null)
             {
+                // barasi in ke file vojod dare ya na , agar dare download na tamom ast ya na
+                if (fileSave.exists () && downloadedSize == 0)
+                {
+                    final boolean fullNotDownloaded = (filesize > fileSave.length ());
+                    print (String.format ("\nThis file<%s> is exists.\n" , filename));
+
+                    if (fullNotDownloaded)
+                    {
+                        print ("Full not downloaded\n");
+                        print ("1.Resume\n");
+                    }
+
+                    print ("2.Delete previous file and download again\n");
+                    print ("3.Rename download file\n");
+                    print ("4.Cancel\n");
+
+                    final BufferedReader numRead = new BufferedReader (new InputStreamReader (System.in));
+
+                    boolean breakWhile = false;
+                    while (!breakWhile)
+                    {
+                        print ("Enter number: ");
+                        final String strNum = numRead.readLine ();
+
+                        int num;
+                        try
+                        {
+                            num = Integer.parseInt (strNum);
+                        }
+                        catch (final Exception e)
+                        {
+                            print ("Please enter just a number!");
+                            continue;
+                        }
+
+                        switch (num)
+                        {
+                            case 1:
+                                if (fullNotDownloaded)
+                                {
+                                    downloadedSize = fileSave.length ();
+                                    download (link , question , fileSave);
+                                    return;
+                                }
+                                else
+                                {
+                                    print ("Error number!");
+                                    break;
+                                }
+                            case 2:
+                                if (fileSave.delete ())
+                                {
+                                    print ("File deleted!");
+                                    breakWhile = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    print ("Delete file error!");
+                                    return;
+                                }
+                            case 3:
+                                fileSave = new File (fileSave.getParent () + File.separator + getNewFilename () + "." + FilenameUtils.getExtension (filename));
+                                download (link , question , fileSave);
+                                return;
+                            case 4:
+                                print ("Cancel download.");
+                                return;
+                        }
+                    }
+                }
+
                 this.fileSave = fileSave;
 
                 inputStream = connection.getInputStream ();
 
                 final byte[] buffer = new byte[5120];
 
-                if (downloadedSize == 0) fileOutputStream = new FileOutputStream (fileSave);
+                if (downloadedSize == 0 || fileOutputStream == null)
+                    fileOutputStream = new FileOutputStream (fileSave , (downloadedSize > 0));
 
                 int lenHere = (int) downloadedSize;
 
@@ -420,6 +493,24 @@ public final class Download extends Thread
         {
             print ("Cancel download.\n");
             close ();
+        }
+    }
+
+    private String getNewFilename ()
+    {
+        final BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
+        while (true)
+        {
+            try
+            {
+                final String name = reader.readLine ();
+                if (name != null && !name.isEmpty () && name.matches ("[^-_.A-Za-z0-9]")) return name;
+                else throw new IOException ("invalid name");
+            }
+            catch (final IOException e)
+            {
+                print ("Error enter name <" + e.getMessage () + ">");
+            }
         }
     }
 
