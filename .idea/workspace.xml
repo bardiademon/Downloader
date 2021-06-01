@@ -7,17 +7,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85f21288-a658-425c-8019-1966c9b2411c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Download1_jar/Download1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/ConvertTime.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/Dl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/Download.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/GetSize.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/StringSpeedDownload.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/bardiademon.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Download.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StringSpeedDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/StringSpeedDownload.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ConvertTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/ConvertTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GetSize.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/GetSize.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StringSpeedDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/StringSpeedDownload.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bardiademon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/bardiademon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +96,7 @@
   </component>
   <component name="RunManager" selected="Application.Dl">
     <configuration name="Dl" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Dl" />
+      <option name="MAIN_CLASS_NAME" value="com.bardiademon.Downloder.Dl" />
       <module name="Download1" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -194,11 +195,24 @@
       <workItem from="1606326829680" duration="1449000" />
       <workItem from="1622367574472" duration="1935000" />
       <workItem from="1622447334962" duration="1524000" />
-      <workItem from="1622452168812" duration="1775000" />
+      <workItem from="1622452168812" duration="2317000" />
+      <workItem from="1622457258253" duration="1260000" />
+      <workItem from="1622550982309" duration="4821000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
