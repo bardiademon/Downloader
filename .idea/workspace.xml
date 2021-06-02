@@ -7,6 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85f21288-a658-425c-8019-1966c9b2411c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Download1_jar/Download1.jar" beforeDir="false" />
@@ -18,6 +19,7 @@
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/GetSize.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/StringSpeedDownload.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/bardiademon.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -109,15 +111,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -200,7 +200,8 @@
       <workItem from="1622452168812" duration="2317000" />
       <workItem from="1622457258253" duration="1260000" />
       <workItem from="1622550982309" duration="6369000" />
-      <workItem from="1622577908010" duration="4539000" />
+      <workItem from="1622577908010" duration="4653000" />
+      <workItem from="1622662828675" duration="8822000" />
     </task>
     <servers />
   </component>

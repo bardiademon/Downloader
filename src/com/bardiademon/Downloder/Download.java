@@ -33,7 +33,10 @@ public final class Download extends Thread
     private boolean download;
 
     private String argLink, argLocationSave;
-    private boolean argMkDir, argLastLocIsFile;
+    private boolean argMkDir;
+    private boolean argLastLocIsFile;
+    private final boolean downloadQuestion;
+    private final boolean manuallyEnterTheAddress;
 
     private String link;
 
@@ -48,12 +51,16 @@ public final class Download extends Thread
     private InputStream inputStream;
     private HttpURLConnection connection;
 
-    Download (final String Link , final String LocationSave , final boolean MkDir , final boolean LastLocIsFile)
+    private static final String EXIT = ":exit";
+
+    Download (final String Link , final String LocationSave , final boolean MkDir , final boolean LastLocIsFile , final boolean DownloadQuestion , final boolean ManuallyEnterTheAddress)
     {
         argLink = Link;
         argLocationSave = LocationSave;
         argMkDir = MkDir;
         argLastLocIsFile = LastLocIsFile;
+        downloadQuestion = DownloadQuestion;
+        manuallyEnterTheAddress = ManuallyEnterTheAddress;
         start ();
     }
 
@@ -121,29 +128,41 @@ public final class Download extends Thread
     private boolean isOkArgLocationSave ()
     {
         if (argLocationSave != null && !argLocationSave.isEmpty ())
-        {
-            File file = new File (argLocationSave);
+            return (pathValidation (new File (argLocationSave) , "") != null);
 
-            String type = FilenameUtils.getExtension (file.getName ());
-
-            if (!file.exists ())
-            {
-                if (argMkDir)
-                {
-                    try
-                    {
-                        if (type.isEmpty () && !argLastLocIsFile) return file.mkdirs ();
-                        else return (file.getParentFile ().mkdirs () && file.createNewFile ());
-                    }
-                    catch (IOException ignored)
-                    {
-                    }
-                }
-            }
-            else return (type.isEmpty ());
-
-        }
         return false;
+    }
+
+    private File pathValidation (final File file , final String nameTypeFile)
+    {
+        final boolean enterFilename = !(FilenameUtils.getExtension (file.getName ())).isEmpty ();
+
+        if ((enterFilename && file.getParentFile ().exists ()) || (!enterFilename && file.exists ()))
+        {
+            if (enterFilename) return file;
+            else return (new File (file.getPath () + File.separator + nameTypeFile));
+        }
+        else
+        {
+            if (!enterFilename && argLastLocIsFile && file.getParentFile ().exists ()) return file;
+
+                /*
+                 * (argMkDir && ((enterFilename && file.getParentFile ().mkdirs ()) || (!enterFilename && ((argLastLocIsFile && file.getParentFile ().mkdirs ()) || (!argLastLocIsFile && file.mkdirs ())))) && file.exists ())
+                 * in if => agar if bala nabod inja aval mige agar gofte bod karbar dir ro besaz , besazesh ama =>
+                 *
+                 * aval agar toye path vared shode .type bod parent file ro begir besaz agar in nashod va .type nabod va akharin path file bode yani .type nadare in file parent ro begir dir ro besaz
+                 * agar file nist ke adi besaz yani parent ro nemikhad begiri
+                 */
+            else if (argMkDir && ((enterFilename && file.getParentFile ().mkdirs ()) || (!enterFilename && ((argLastLocIsFile && file.getParentFile ().mkdirs ()) || (!argLastLocIsFile && file.mkdirs ())))))
+            {
+                if (enterFilename || argLastLocIsFile) return file;
+                else return (new File (file.getPath () + File.separator + nameTypeFile));
+            }
+
+            else print ("Invalid path!\n");
+        }
+
+        return null;
     }
 
     @bardiademon
@@ -171,7 +190,7 @@ public final class Download extends Thread
         print ("Start Download " + links.size () + " Files (y/n): ");
         if (readerLink.readLine ().equalsIgnoreCase ("y"))
         {
-            File fileSave = getLocation (null , true);
+            final File fileSave = getLocation (null , true);
             if (fileSave != null)
             {
                 print ("\n");
@@ -292,7 +311,7 @@ public final class Download extends Thread
         boolean download;
 
         final BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
-        if (question && (downloadedSize == 0))
+        if (!downloadQuestion && question && (downloadedSize == 0))
         {
             print ("Download this file (y,n)? ");
             download = reader.readLine ().equalsIgnoreCase ("y");
@@ -319,7 +338,7 @@ public final class Download extends Thread
             {
                 if (fileSave == null)
                 {
-                    print ("File saving path: ");
+                    if (!manuallyEnterTheAddress) print ("File saving path: ");
                     fileSave = getLocation (filename , false);
                 }
                 else if (fileSave.isDirectory ())
@@ -330,6 +349,7 @@ public final class Download extends Thread
             if (fileSave != null)
             {
                 // barasi in ke file vojod dare ya na , agar dare download na tamom ast ya na
+
                 if (fileSave.exists () && downloadedSize == 0)
                 {
                     final boolean fullNotDownloaded = (filesize > fileSave.length ());
@@ -392,7 +412,7 @@ public final class Download extends Thread
                                 }
                             case 3:
                                 fileSave = new File (fileSave.getParent () + File.separator + getNewFilename () + "." + FilenameUtils.getExtension (filename));
-                                download (link , question , fileSave);
+                                download (link , false , fileSave);
                                 return;
                             case 4:
                                 print ("Cancel download.");
@@ -499,13 +519,22 @@ public final class Download extends Thread
     private String getNewFilename ()
     {
         final BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
+
+        print ("\nExit = " + EXIT + "\n");
         while (true)
         {
             try
             {
+                print ("\nEnter new name: ");
                 final String name = reader.readLine ();
-                if (name != null && !name.isEmpty () && name.matches ("[^-_.A-Za-z0-9]")) return name;
-                else throw new IOException ("invalid name");
+                if (name != null && !name.isEmpty ())
+                {
+                    if (name.equals (EXIT)) System.exit (0);
+
+                    if (name.matches ("[-_.A-Za-z0-9]*")) return name;
+                    else throw new IOException ("Invalid name!");
+                }
+                else throw new IOException ("Name is empty!");
             }
             catch (final IOException e)
             {
@@ -603,43 +632,76 @@ public final class Download extends Thread
     @bardiademon
     private File getLocation (final String nameTypeFile , final boolean justDir)
     {
-        final JFileChooser chooser = new JFileChooser ();
-
-        if (justDir)
-            chooser.setFileSelectionMode (JFileChooser.DIRECTORIES_ONLY);
-        else
-            chooser.setSelectedFile (new File (nameTypeFile));
-
-        final AtomicInteger openDialogResult = new AtomicInteger ();
-        SwingUtilities.invokeLater (() ->
+        if (isOkArgLocationSave ()) return (new File (argLocationSave));
+        else if (manuallyEnterTheAddress)
         {
-            openDialogResult.set (chooser.showSaveDialog (null));
+            final BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
+            print ("\nExit = " + EXIT + "\n");
+            while (true)
+            {
+                try
+                {
+                    print ("Enter path <" + nameTypeFile + ">: ");
+                    final String path = reader.readLine ();
+                    if (path != null && !path.isEmpty ())
+                    {
+                        if (path.equals (EXIT))
+                            System.exit (0);
+
+                        else
+                        {
+                            final File file = pathValidation (new File (path) , nameTypeFile);
+                            if (file != null) return file;
+                        }
+                    }
+                }
+                catch (final IOException e)
+                {
+                    print ("Error reader <" + e.getMessage () + ">");
+                    System.exit (0);
+                }
+            }
+        }
+        else
+        {
+            final JFileChooser chooser = new JFileChooser ();
+
+            if (justDir)
+                chooser.setFileSelectionMode (JFileChooser.DIRECTORIES_ONLY);
+            else
+                chooser.setSelectedFile (new File (nameTypeFile));
+
+            final AtomicInteger openDialogResult = new AtomicInteger ();
+            SwingUtilities.invokeLater (() ->
+            {
+                openDialogResult.set (chooser.showSaveDialog (null));
+                synchronized (Download.this)
+                {
+                    Download.this.notify ();
+                    Download.this.notifyAll ();
+                }
+            });
+
             synchronized (Download.this)
             {
-                Download.this.notify ();
-                Download.this.notifyAll ();
+                try
+                {
+                    Download.this.wait ();
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace ();
+                }
             }
-        });
 
-        synchronized (Download.this)
-        {
-            try
+            File fileSave;
+            if (openDialogResult.get () == JFileChooser.OPEN_DIALOG && (fileSave = chooser.getSelectedFile ()) != null && fileSave.getParentFile () != null)
             {
-                Download.this.wait ();
+                print (fileSave.getPath () + "\n");
+                return fileSave;
             }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace ();
-            }
+            return null;
         }
-
-        File fileSave;
-        if (openDialogResult.get () == JFileChooser.OPEN_DIALOG && (fileSave = chooser.getSelectedFile ()) != null && fileSave.getParentFile () != null)
-        {
-            print (fileSave.getPath () + "\n");
-            return fileSave;
-        }
-        return null;
     }
 
     private void close ()
