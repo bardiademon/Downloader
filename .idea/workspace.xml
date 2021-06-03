@@ -7,8 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85f21288-a658-425c-8019-1966c9b2411c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Download1_jar/Download1.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/META-INF/MANIFEST.MF" beforeDir="false" />
@@ -96,7 +94,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Dl">
+  <component name="RunManager">
     <configuration name="Dl" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.bardiademon.Downloder.Dl" />
       <module name="Download1" />
@@ -104,20 +102,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Test" />
+    <configuration name="TestForProgress" type="Application" factoryName="Application" temporary="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="C:/Program Files/Java/jdk-16.0.1" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.bardiademon.Downloder.Dl" />
       <module name="Download1" />
+      <option name="PROGRAM_PARAMETERS" value="-l &quot;https://dl2.film2serial.ir/film2serial/film/doble/97/3/Only.The.Brave.2017.1080p.BluRay.GECK%28Film2serial.ir%29.mkv&quot; -p &quot;E:\1\Bardia Demon\Video\Cinema\new\1\Only.The.Brave.2017.1080p.BluRay.GECK%28Film2serial.ir%29.mkv&quot; -q" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -132,8 +135,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TestForProgress" />
         <item itemvalue="Application.Dl" />
-        <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
   </component>
@@ -201,7 +204,8 @@
       <workItem from="1622457258253" duration="1260000" />
       <workItem from="1622550982309" duration="6369000" />
       <workItem from="1622577908010" duration="4653000" />
-      <workItem from="1622662828675" duration="8822000" />
+      <workItem from="1622662828675" duration="8920000" />
+      <workItem from="1622706706770" duration="2479000" />
     </task>
     <servers />
   </component>

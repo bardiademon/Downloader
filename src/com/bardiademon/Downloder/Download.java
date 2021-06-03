@@ -430,8 +430,6 @@ public final class Download extends Thread
                 if (downloadedSize == 0 || fileOutputStream == null)
                     fileOutputStream = new FileOutputStream (fileSave , (downloadedSize > 0));
 
-                int lenHere = (int) downloadedSize;
-
                 int len;
                 long lenInSec = 0;
                 float min;
@@ -465,11 +463,10 @@ public final class Download extends Thread
                             secTemp += second;
                             fileOutputStream.write (buffer , 0 , len);
 
-                            lenHere += len;
                             downloadedSize += len;
                             lenInSec += len;
 
-                            min = ((float) lenHere / filesize) * 100;
+                            min = Math.abs (((float) downloadedSize / filesize) * 100);
 
                             if ((int) min > max)
                                 max = (int) min;

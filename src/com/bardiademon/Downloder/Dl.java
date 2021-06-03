@@ -59,11 +59,8 @@ public class Dl
             {
                 return args[index];
             }
-            catch (final Exception e)
+            catch (final Exception ignored)
             {
-                e.printStackTrace ();
-                System.out.println ("Error args");
-                System.exit (0);
             }
         }
 
@@ -78,7 +75,7 @@ public class Dl
             {
                 if (args[i].equals (what)) return (i + 1);
             }
-            catch (Exception ignored)
+            catch (final Exception ignored)
             {
             }
         }
@@ -93,7 +90,7 @@ public class Dl
             {
                 if (arg.equals (what)) return true;
             }
-            catch (Exception ignored)
+            catch (final Exception ignored)
             {
             }
         }
