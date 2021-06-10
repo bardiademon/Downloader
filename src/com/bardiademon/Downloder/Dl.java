@@ -48,6 +48,7 @@ public class Dl
     @bardiademon
     public static void main (final String[] args)
     {
+        new About ();
         new Dl (args);
     }
 

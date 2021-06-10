@@ -6,18 +6,22 @@ class GetSize
     @bardiademon
     static String Get (long Byte)
     {
-        float kb = (float) Byte / 1024;
-        if (kb >= 1024)
+        if (Byte >= 1024)
         {
-            float mb = (kb / 1024);
-            if (mb >= 1024)
+            float size = (float) Byte / 1024;
+            if (size >= 1024)
             {
-                float gb = mb / 1024;
-                return String.format ("%s GB" , toString (gb));
+                size = (size / 1024);
+                if (size >= 1024)
+                {
+                    size = size / 1024;
+                    return String.format ("%s GB" , toString (size));
+                }
+                else return String.format ("%s MB" , toString (size));
             }
-            else return String.format ("%s MB" , toString (mb));
+            else return String.format ("%s KB" , toString (size));
         }
-        else return toString (kb);
+        else return String.format ("%s byte" , toString (Byte));
     }
 
     @bardiademon

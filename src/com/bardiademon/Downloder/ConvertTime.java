@@ -6,7 +6,6 @@ package com.bardiademon.Downloder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-@bardiademon
 public class ConvertTime
 {
 

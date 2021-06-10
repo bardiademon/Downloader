@@ -24,6 +24,9 @@ import org.apache.commons.io.FilenameUtils;
 @bardiademon
 public final class Download extends Thread
 {
+    // FIEC => File Is Exists Command
+    public static final int FIEC_RESUME = 1, FIEC_DELETE = 2, FIEC_RENAME = 3, FIEC_CANCEL = 4;
+
     private static final int PROGRESS_SHOW = 5; // Progress / PROGRESS_SHOW;
     private static final String VIEW_PROGRESS = "█";
     private static final String START_SHOW_PROGRESS = "[";
@@ -51,16 +54,42 @@ public final class Download extends Thread
     private InputStream inputStream;
     private HttpURLConnection connection;
 
+    private final On on;
+    private final OnInfoLink onInfoLink;
+
+    private final boolean getInfo;
+
+    private final boolean printable;
+
     private static final String EXIT = ":exit";
 
-    Download (final String Link , final String LocationSave , final boolean MkDir , final boolean LastLocIsFile , final boolean DownloadQuestion , final boolean ManuallyEnterTheAddress)
+    public Download (final String Link , final String LocationSave , final boolean MkDir , final boolean LastLocIsFile , final boolean DownloadQuestion , final boolean ManuallyEnterTheAddress)
     {
-        argLink = Link;
-        argLocationSave = LocationSave;
-        argMkDir = MkDir;
-        argLastLocIsFile = LastLocIsFile;
-        downloadQuestion = DownloadQuestion;
-        manuallyEnterTheAddress = ManuallyEnterTheAddress;
+        this (Link , LocationSave , MkDir , LastLocIsFile , DownloadQuestion , ManuallyEnterTheAddress , null);
+    }
+
+    public Download (final String Link , final String LocationSave , final boolean MkDir , final boolean LastLocIsFile , final boolean DownloadQuestion , final boolean ManuallyEnterTheAddress , final On _On)
+    {
+        this (Link , LocationSave , MkDir , LastLocIsFile , DownloadQuestion , ManuallyEnterTheAddress , _On , null);
+    }
+
+    public Download (final String Link , final OnInfoLink _On)
+    {
+        this (Link , null , false , false , true , true , null , _On);
+    }
+
+    public Download (final String Link , final String LocationSave , final boolean MkDir , final boolean LastLocIsFile , final boolean DownloadQuestion , final boolean ManuallyEnterTheAddress , final On _On , final OnInfoLink _OnInfoLink)
+    {
+        this.argLink = Link;
+        this.argLocationSave = LocationSave;
+        this.argMkDir = MkDir;
+        this.argLastLocIsFile = LastLocIsFile;
+        this.downloadQuestion = DownloadQuestion;
+        this.manuallyEnterTheAddress = ManuallyEnterTheAddress;
+        this.onInfoLink = _OnInfoLink;
+        this.on = _On;
+        this.printable = (this.onInfoLink == null);
+        this.getInfo = (this.on == null && this.onInfoLink != null);
         start ();
     }
 
@@ -74,7 +103,8 @@ public final class Download extends Thread
     {
         stopDownload = false;
         pause = false;
-        while (true)
+
+        do
         {
             try
             {
@@ -100,9 +130,15 @@ public final class Download extends Thread
             }
             catch (final Exception e)
             {
+                if (!printable)
+                {
+                    on.OnError (e);
+                    if (e.getMessage () != null && e.getMessage ().toLowerCase (Locale.ROOT).contains ("cancel download"))
+                        on.OnCancelDownload ();
+                }
                 print ("\nDownload error => " + e.getMessage () + "\n");
             }
-        }
+        } while (printable);
     }
 
     private String getLink () throws IOException
@@ -115,8 +151,12 @@ public final class Download extends Thread
         }
         else
         {
-            readerLink = new BufferedReader (new InputStreamReader (System.in));
-            return readerLink.readLine ();
+            if (printable)
+            {
+                readerLink = new BufferedReader (new InputStreamReader (System.in));
+                return readerLink.readLine ();
+            }
+            else return on.OnEnterLink ();
         }
     }
 
@@ -159,7 +199,12 @@ public final class Download extends Thread
                 else return (new File (file.getPath () + File.separator + nameTypeFile));
             }
 
-            else print ("Invalid path!\n");
+            else
+            {
+                if (!printable) on.OnErrorPath (new Exception ("Invalid path") , file , nameTypeFile);
+
+                print ("Invalid path!\n");
+            }
         }
 
         return null;
@@ -168,7 +213,7 @@ public final class Download extends Thread
     @bardiademon
     private void listDownload () throws Exception
     {
-        List <String> links = new ArrayList <> ();
+        final List <String> links = new ArrayList <> ();
         String link;
         int counter = 1;
         print ("Link " + (counter++) + ": ");
@@ -179,16 +224,17 @@ public final class Download extends Thread
         }
         List <String> listName = new ArrayList <> ();
         print ("\n");
-        for (String oneLink : links)
+        long size = 0;
+        for (final String oneLink : links)
         {
-            URL url = new URL (oneLink);
+            final URL url = new URL (oneLink);
             String name = FilenameUtils.getName (url.getPath ());
             listName.add (name);
-            print (name + ": " + GetSize.Get (Long.parseLong (url.openConnection ().getHeaderField ("Content-length"))) + "\n");
+            print (name + ": " + GetSize.Get ((size = Long.parseLong (url.openConnection ().getHeaderField ("Content-length")))) + "\n");
         }
         print ("\n");
         print ("Start Download " + links.size () + " Files (y/n): ");
-        if (readerLink.readLine ().equalsIgnoreCase ("y"))
+        if ((printable && readerLink.readLine ().equalsIgnoreCase ("y")) || on.OnConnectedList (size))
         {
             final File fileSave = getLocation (null , true);
             if (fileSave != null)
@@ -310,13 +356,12 @@ public final class Download extends Thread
 
         boolean download;
 
-        final BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
         if (!downloadQuestion && question && (downloadedSize == 0))
         {
             print ("Download this file (y,n)? ");
-            download = reader.readLine ().equalsIgnoreCase ("y");
+            download = (printable && (new BufferedReader (new InputStreamReader (System.in))).readLine ().equalsIgnoreCase ("y")) || ((getInfo && onInfoLink.OnConnected (filesize , fileSave)) || on.OnConnected (filesize , fileSave));
         }
-        else download = true;
+        else download = (printable || on.OnConnected (filesize , fileSave));
 
         if (download)
         {
@@ -325,13 +370,24 @@ public final class Download extends Thread
             if (FilenameUtils.getExtension (filename).isEmpty ())
             {
                 final String contentDisposition = connection.getHeaderField ("Content-Disposition");
-                final String filenameEquals = "filename=";
-                filename = contentDisposition.substring (contentDisposition.indexOf (filenameEquals) + filenameEquals.length ());
+                if (contentDisposition != null)
+                {
+                    final String filenameEquals = "filename=";
+                    filename = contentDisposition.substring (contentDisposition.indexOf (filenameEquals) + filenameEquals.length ());
+                    if (filename.isEmpty ()) filename = FilenameUtils.getName (link);
+                }
 
-                if (filename.isEmpty ()) filename = FilenameUtils.getName (link);
             }
 
-            print (filename + "\n");
+            print ("Filename: " + filename + "\n");
+
+            if (!printable)
+            {
+                if (getInfo) onInfoLink.OnFilename (filename);
+                else on.OnFilename (filename);
+            }
+
+            if (getInfo) return;
 
             // agar download resume nashode bashe
             if (downloadedSize == 0)
@@ -371,7 +427,7 @@ public final class Download extends Thread
                     while (!breakWhile)
                     {
                         print ("Enter number: ");
-                        final String strNum = numRead.readLine ();
+                        final String strNum = (printable) ? numRead.readLine () : String.valueOf (on.OnExistsFile (fullNotDownloaded));
 
                         int num;
                         try
@@ -437,6 +493,8 @@ public final class Download extends Thread
                 long startRead, endRead;
                 double second, secTemp = 0;
                 String strSpeedDownload = "0 KB/s";
+                String downloaded;
+                String progress;
 
                 forPause ();
                 while (!stopDownload)
@@ -477,37 +535,47 @@ public final class Download extends Thread
                                 lenInSec = 0;
                                 secTemp = 0;
                             }
-                            print (String.format ("\r %s || %s || %s || %s " , progress (max) , GetSize.Get (downloadedSize) , strSpeedDownload , okTime ()));
+
+                            downloaded = GetSize.Get (downloadedSize);
+                            progress = progress (max);
+
+                            print (String.format ("\r %s || %s || %s || %s " , progress , downloaded , strSpeedDownload , okTime ()));
+
+                            if (!printable)
+                                on.OnDownloading (max , progress , downloaded , downloadedSize , strSpeedDownload , okTime ());
                         }
                         catch (final Exception e)
                         {
+                            on.OnErrorDownloading (e);
                             print ("\rDownload Error <" + e.getMessage () + ">\n");
                             pause ();
                         }
                     }
                 }
+                pause = false;
+                print ("\n");
                 closeStream ();
-                if (question)
-                {
-                    print ("\rDownload complete.\n");
-                    Desktop.getDesktop ().open (fileSave.getParentFile ());
 
-                    argLastLocIsFile = false;
-                    argLocationSave = null;
-                    argMkDir = false;
-                    argLink = null;
+                print ("\nDownload complete.\n");
+                if (printable) Desktop.getDesktop ().open (fileSave.getParentFile ());
+                else on.OnDownloaded (fileSave);
 
-                    System.gc ();
-                    runClass ();
-                }
-                else
-                    print ("\rDownloaded " + FilenameUtils.getName (fileSave.getPath ()) + ".");
+                argLastLocIsFile = false;
+                argLocationSave = null;
+                argMkDir = false;
+                argLink = null;
+
+                System.gc ();
+                if (printable) runClass ();
+
             }
             else
                 throw new IOException ("Error select path save file");
         }
         else
         {
+            if (!printable) on.OnCancelDownload ();
+
             print ("Cancel download.\n");
             close ();
         }
@@ -515,15 +583,13 @@ public final class Download extends Thread
 
     private String getNewFilename ()
     {
-        final BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
-
         print ("\nExit = " + EXIT + "\n");
         while (true)
         {
             try
             {
                 print ("\nEnter new name: ");
-                final String name = reader.readLine ();
+                final String name = (printable) ? (new BufferedReader (new InputStreamReader (System.in))).readLine () : on.OnRenameFileExists (fileSave.getName ());
                 if (name != null && !name.isEmpty ())
                 {
                     if (name.equals (EXIT)) System.exit (0);
@@ -535,6 +601,7 @@ public final class Download extends Thread
             }
             catch (final IOException e)
             {
+                if (!printable) on.OnErrorRenameFileExists (e);
                 print ("Error enter name <" + e.getMessage () + ">");
             }
         }
@@ -582,22 +649,26 @@ public final class Download extends Thread
             pause = true;
             try
             {
-                final String continueDownload = reader.readLine ();
+                final String continueDownload;
+
+                if (printable) continueDownload = reader.readLine ();
+                else continueDownload = (on.OnPause () ? "y" : "n");
+
                 if (continueDownload != null && continueDownload.toLowerCase (Locale.ROOT).equals ("y"))
                     pause = false;
                 else
                     stopDownload = true;
+
 
                 synchronized (Download.this)
                 {
                     Download.this.notify ();
                     Download.this.notifyAll ();
                 }
-
             }
             catch (final IOException e)
             {
-                e.printStackTrace ();
+                System.out.println (e.getMessage ());
             }
         }).start ();
 
@@ -607,8 +678,9 @@ public final class Download extends Thread
             {
                 Download.this.wait ();
             }
-            catch (InterruptedException ignored)
+            catch (InterruptedException e)
             {
+                on.OnErrorPause (e , false);
             }
         }
 
@@ -620,6 +692,7 @@ public final class Download extends Thread
             }
             catch (final Exception e)
             {
+                on.OnErrorPause (e , true);
                 pause ();
             }
         }
@@ -632,18 +705,20 @@ public final class Download extends Thread
         if (isOkArgLocationSave ()) return (new File (argLocationSave));
         else if (manuallyEnterTheAddress)
         {
-            final BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
             print ("\nExit = " + EXIT + "\n");
             while (true)
             {
                 try
                 {
-                    print ("Enter path <" + nameTypeFile + ">: ");
-                    final String path = reader.readLine ();
+                    print ("Enter path <" + nameTypeFile + "> " + ((justDir) ? "Enter dir " : "") + ": ");
+                    final String path = (printable) ? (new BufferedReader (new InputStreamReader (System.in))).readLine () : on.OnEnterPath (nameTypeFile , justDir);
                     if (path != null && !path.isEmpty ())
                     {
                         if (path.equals (EXIT))
-                            System.exit (0);
+                        {
+                            if (printable) System.exit (0);
+                            else return null;
+                        }
 
                         else
                         {
@@ -661,55 +736,100 @@ public final class Download extends Thread
         }
         else
         {
-            final JFileChooser chooser = new JFileChooser ();
-
-            if (justDir)
-                chooser.setFileSelectionMode (JFileChooser.DIRECTORIES_ONLY);
-            else
-                chooser.setSelectedFile (new File (nameTypeFile));
-
-            final AtomicInteger openDialogResult = new AtomicInteger ();
-            SwingUtilities.invokeLater (() ->
+            if (printable)
             {
-                openDialogResult.set (chooser.showSaveDialog (null));
+                final JFileChooser chooser = new JFileChooser ();
+
+                // justDir , For Download List
+                if (justDir)
+                    chooser.setFileSelectionMode (JFileChooser.DIRECTORIES_ONLY);
+                else
+                    chooser.setSelectedFile (new File (nameTypeFile));
+
+                final AtomicInteger openDialogResult = new AtomicInteger ();
+                SwingUtilities.invokeLater (() ->
+                {
+                    openDialogResult.set (chooser.showSaveDialog (null));
+                    synchronized (Download.this)
+                    {
+                        Download.this.notify ();
+                        Download.this.notifyAll ();
+                    }
+                });
+
                 synchronized (Download.this)
                 {
-                    Download.this.notify ();
-                    Download.this.notifyAll ();
+                    try
+                    {
+                        Download.this.wait ();
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace ();
+                    }
                 }
-            });
 
-            synchronized (Download.this)
-            {
-                try
+                File fileSave;
+                if (openDialogResult.get () == JFileChooser.OPEN_DIALOG && (fileSave = chooser.getSelectedFile ()) != null && fileSave.getParentFile () != null)
                 {
-                    Download.this.wait ();
+                    print (fileSave.getPath () + "\n");
+                    return fileSave;
                 }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace ();
-                }
+                return null;
             }
+            else return new File (on.OnEnterPath (nameTypeFile , justDir));
 
-            File fileSave;
-            if (openDialogResult.get () == JFileChooser.OPEN_DIALOG && (fileSave = chooser.getSelectedFile ()) != null && fileSave.getParentFile () != null)
-            {
-                print (fileSave.getPath () + "\n");
-                return fileSave;
-            }
-            return null;
         }
+    }
+
+    public interface On extends OnInfoLink
+    {
+        void OnDownloading (final int Percent , final String Progress , final String DownloadedString , final long DownloadedLong , final String Speed , final String Time);
+
+        boolean OnConnectedList (final long Size);
+
+        int OnExistsFile (final boolean FullNotDownloaded);
+
+        String OnEnterPath (final String Filename , final boolean JustDir);
+
+        void OnErrorPath (final Exception E , final File _File , final String Filename);
+
+        String OnEnterLink ();
+
+        void OnDownloaded (final File Path);
+
+        void OnErrorDownloading (final Exception E);
+
+        // for continue
+        boolean OnPause ();
+
+        void OnErrorPause (final Exception E , final boolean Pause);
+
+        String OnRenameFileExists (final String Filename);
+
+        void OnErrorRenameFileExists (final Exception E);
+
+        void OnCancelDownload ();
+    }
+
+    public interface OnInfoLink
+    {
+        boolean OnConnected (final long Size , final File Path);
+
+        void OnFilename (final String Filename);
+
+        void OnError (final Exception E);
     }
 
     private void close ()
     {
         System.gc ();
-        System.exit (0);
+        if (printable) System.exit (0);
     }
 
     private void print (String str)
     {
-        if (!pause) System.out.print (str);
+        if (!pause && printable) System.out.print (str);
     }
 
 }
