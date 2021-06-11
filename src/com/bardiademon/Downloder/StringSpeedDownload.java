@@ -1,10 +1,10 @@
 package com.bardiademon.Downloder;
 
 @bardiademon
-class StringSpeedDownload
+public class StringSpeedDownload
 {
     @bardiademon
-    static String Get (long Byte)
+    public static String Get (long Byte)
     {
         double kb = (double) Byte / 1024;
         if (kb >= 1024)

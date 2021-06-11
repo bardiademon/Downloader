@@ -1,5 +1,7 @@
 package com.bardiademon.Downloder;
 
+import com.bardiademon.Downloder.Download.Download;
+
 @bardiademon
 public class Dl
 {

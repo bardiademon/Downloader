@@ -1,10 +1,10 @@
 package com.bardiademon.Downloder;
 
 @bardiademon
-class GetSize
+public class GetSize
 {
     @bardiademon
-    static String Get (long Byte)
+    public  static String Get (long Byte)
     {
         if (Byte >= 1024)
         {

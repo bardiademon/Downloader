@@ -7,21 +7,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85f21288-a658-425c-8019-1966c9b2411c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Download1_jar/Download1.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/About.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/ConvertTime.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Dl.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Download$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Download$On.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Download$OnInfoLink.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Download.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/GetSize.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/StringSpeedDownload.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/bardiademon.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/ConvertTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/ConvertTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/About.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/About.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/Download.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/GetSize.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/GetSize.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/StringSpeedDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/StringSpeedDownload.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +89,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../BardiaArt.Server" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
@@ -224,7 +229,10 @@
       <workItem from="1623223721502" duration="1791000" />
       <workItem from="1623265377852" duration="2446000" />
       <workItem from="1623300768782" duration="4411000" />
-      <workItem from="1623305238539" duration="5181000" />
+      <workItem from="1623305238539" duration="8342000" />
+      <workItem from="1623344774950" duration="850000" />
+      <workItem from="1623405926262" duration="2552000" />
+      <workItem from="1623442037177" duration="2263000" />
     </task>
     <servers />
   </component>
