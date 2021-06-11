@@ -14,13 +14,12 @@ public interface On extends OnInfoLink
 
     void OnErrorPath (final Exception E , final File _File , final String Filename);
 
-
     void OnDownloaded (final File Path);
 
     void OnErrorDownloading (final Exception E);
 
     // for continue
-    boolean OnPause ();
+    void OnPause (final Download.ResumeDownload ResumeDownload);
 
     void OnErrorPause (final Exception E , final boolean Pause);
 

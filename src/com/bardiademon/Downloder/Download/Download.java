@@ -530,7 +530,7 @@ public final class Download extends Thread
                 String downloaded;
                 String progress;
 
-                forPause ();
+                if (printable) forPause ();
                 while (!stopDownload && run && !compulsoryStop)
                 {
                     if (!pause)
@@ -679,7 +679,7 @@ public final class Download extends Thread
         }).start ();
     }
 
-    private void pause ()
+    public void pause ()
     {
         forPause = false;
         new Thread (() ->
@@ -689,12 +689,43 @@ public final class Download extends Thread
             pause = true;
             try
             {
-                final String continueDownload;
+                final var cn = new Object ()
+                {
+                    String continueDownload;
+                };
 
-                if (printable) continueDownload = reader.readLine ();
-                else continueDownload = (on.OnPause () ? "y" : "n");
+                if (printable) cn.continueDownload = reader.readLine ();
+                else
+                {
+                    new Thread (() -> on.OnPause (resume ->
+                    {
+                        cn.continueDownload = (resume ? "y" : "n");
 
-                if (continueDownload != null && continueDownload.toLowerCase (Locale.ROOT).equals ("y"))
+                        synchronized (Download.this)
+                        {
+                            Download.this.notify ();
+                            Download.this.notifyAll ();
+                        }
+                    })).start ();
+
+                    synchronized (Download.this)
+                    {
+                        try
+                        {
+                            Download.this.wait ();
+                        }
+                        catch (InterruptedException e)
+                        {
+                            on.OnErrorPause (e , false);
+                            Download.this.notify ();
+                            Download.this.notifyAll ();
+                            cn.continueDownload = "n";
+                        }
+                    }
+                }
+
+
+                if (cn.continueDownload != null && cn.continueDownload.toLowerCase (Locale.ROOT).equals ("y"))
                     pause = false;
                 else
                     stopDownload = true;
@@ -822,6 +853,11 @@ public final class Download extends Thread
             else return new File (on.OnEnterPath (nameTypeFile , justDir));
 
         }
+    }
+
+    public interface ResumeDownload
+    {
+        void Resume (final boolean resume);
     }
 
     private void close ()
