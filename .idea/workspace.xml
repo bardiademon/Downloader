@@ -7,26 +7,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85f21288-a658-425c-8019-1966c9b2411c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Download1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Download_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Download1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Download1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Download1_jar/Download1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/About.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Bardiademon/Default.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/ConvertTime.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Dl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Download/Download$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Download/Download.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Download/On.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/Download/OnInfoLink.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/GetSize.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/StringSpeedDownload.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Download1/com/bardiademon/Downloder/bardiademon.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/Download_jar/Download.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/About.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/Bardiademon/Default.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/ConvertTime.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/Dl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/Download/Download$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/Download/Download$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/Download/Download$ResumeDownload.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/Download/Download.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/Download/On.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/Download/OnInfoLink.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/GetSize.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/StringSpeedDownload.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/bardiademon.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Bardiademon/Default.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Bardiademon/Default.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/Download.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/On.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/On.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/OnInfoLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/OnInfoLink.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +89,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554834831562" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../BardiaArt.Server" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -96,6 +103,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Programming\project\java\1\Old\IntelliJ\Download\out\artifacts\Download_jar" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -121,15 +129,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -138,19 +144,6 @@
       <option name="MAIN_CLASS_NAME" value="Dl" />
       <module name="Download" />
       <option name="SCRATCH_FILE_URL" value="file://$PROJECT_DIR$/src/Dl.java" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="Download" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Download" />
-      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -245,7 +238,30 @@
       <workItem from="1623305238539" duration="8342000" />
       <workItem from="1623344774950" duration="850000" />
       <workItem from="1623405926262" duration="2552000" />
-      <workItem from="1623442037177" duration="3964000" />
+      <workItem from="1623442037177" duration="5408000" />
+      <workItem from="1623833018289" duration="1220000" />
+      <workItem from="1623838430133" duration="2141000" />
+      <workItem from="1623841546212" duration="1756000" />
+      <workItem from="1623917435257" duration="4780000" />
+      <workItem from="1623947373929" duration="1545000" />
+      <workItem from="1624003482459" duration="1224000" />
+      <workItem from="1624093056606" duration="2734000" />
+      <workItem from="1624113837931" duration="8000" />
+      <workItem from="1624135393796" duration="4216000" />
+      <workItem from="1624178775476" duration="1815000" />
+      <workItem from="1624262982491" duration="2136000" />
+      <workItem from="1624307064030" duration="2378000" />
+      <workItem from="1624377054608" duration="31000" />
+      <workItem from="1624566941210" duration="2171000" />
+      <workItem from="1624619427199" duration="441000" />
+      <workItem from="1624619893946" duration="331000" />
+      <workItem from="1624620255181" duration="105000" />
+      <workItem from="1624620920492" duration="4539000" />
+      <workItem from="1625381418031" duration="937000" />
+      <workItem from="1625607890820" duration="692000" />
+      <workItem from="1626437972137" duration="1167000" />
+      <workItem from="1626441716524" duration="589000" />
+      <workItem from="1626683868855" duration="2925000" />
     </task>
     <servers />
   </component>

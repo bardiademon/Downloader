@@ -3,19 +3,17 @@ package com.bardiademon.Downloder;
 import com.bardiademon.Downloder.Download.Download;
 
 @bardiademon
-public class Dl
+public final record Dl(String[] args)
 {
-    private static final String ARG_LINK = "-l",
-            ARG_LOCATION_SAVE = "-p",
-            ARG_MK_DIR = "-m",
-            ARG_LAST_LOC_IS_FILE = "-f",
-            ARG_HELP = "-h",
-            ARG_DOWNLOAD_QUESTION = "-q",
-            ARG_MANUALLY_ENTER_THE_ADDRESS = "-ma";
+    private static final String ARG_LINK = "-l";
+    private static final String ARG_LOCATION_SAVE = "-p";
+    private static final String ARG_MK_DIR = "-m";
+    private static final String ARG_LAST_LOC_IS_FILE = "-f";
+    private static final String ARG_HELP = "-h";
+    private static final String ARG_DOWNLOAD_QUESTION = "-q";
+    private static final String ARG_MANUALLY_ENTER_THE_ADDRESS = "-ma";
 
-    private final String[] args;
-
-    private Dl (final String[] args)
+    public Dl (final String[] args)
     {
         this.args = args;
 
@@ -103,12 +101,21 @@ public class Dl
 
     private void printHelp ()
     {
-        System.out.printf ("\n%s -> Get the download link , Sample ( java -jar download.jar %s \"LINK\" )\n\n" +
-                        "%s -> File saving path , Sample ( java -jar download.jar %s \"PATH\" )\n\n" +
-                        "%s -> If there is no path, create the path , Sample ( java -jar download.jar %s )\n\n" +
-                        "%s -> If the file has no extension, So it is not a folder , Sample ( java -jar download.jar %s )\n\n" +
-                        "%s -> If it is incorrect, the download will start without any questions , Sample ( java -jar download.jar %s )\n\n" +
-                        "%s -> If it is false, the file chooser window will open , Sample ( java -jar download.jar %s )\n\n" ,
+        System.out.printf ("""
+
+                        %s -> Get the download link , Sample ( java -jar download.jar %s "LINK" )
+
+                        %s -> File saving path , Sample ( java -jar download.jar %s "PATH" )
+
+                        %s -> If there is no path, create the path , Sample ( java -jar download.jar %s )
+
+                        %s -> If the file has no extension, So it is not a folder , Sample ( java -jar download.jar %s )
+
+                        %s -> If it is incorrect, the download will start without any questions , Sample ( java -jar download.jar %s )
+
+                        %s -> If it is false, the file chooser window will open , Sample ( java -jar download.jar %s )
+                                                
+                        """ ,
                 ARG_LINK , ARG_LINK ,
                 ARG_LOCATION_SAVE , ARG_LOCATION_SAVE ,
                 ARG_MK_DIR , ARG_MK_DIR ,

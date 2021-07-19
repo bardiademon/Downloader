@@ -11,4 +11,13 @@ public interface OnInfoLink
     void OnFilename (final String Filename);
 
     void OnError (final Exception E);
+
+    void OnPrint (final String Message);
+
+    void OnCancelDownload ();
+
+    /*
+     * redirect
+     */
+    void OnNewLink (final String Link);
 }

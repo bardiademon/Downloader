@@ -10,6 +10,10 @@ public interface On extends OnInfoLink
 
     int OnExistsFile (final boolean FullNotDownloaded);
 
+    void OnExistsFileError (final Exception E);
+
+    void OnExistsFileErrorDeleteFile (final Exception E , final File _File);
+
     String OnEnterPath (final String Filename , final boolean JustDir);
 
     void OnErrorPath (final Exception E , final File _File , final String Filename);
@@ -27,9 +31,8 @@ public interface On extends OnInfoLink
 
     void OnErrorRenameFileExists (final Exception E);
 
-    void OnCancelDownload ();
-
     void OnCompulsoryStop ();
 
     void OnCompulsoryStopCloseStreamError (final Exception E);
+
 }
