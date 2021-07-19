@@ -162,6 +162,7 @@ public final class Download
             {
                 String link = getLink ();
 
+
                 if (link.equals ("exit"))
                     break;
                 else if (link.equals ("list"))
@@ -431,18 +432,19 @@ public final class Download
         }
 
         connection.connect ();
+
         connection.getInputStream ();
-
         final String newLink = connection.getURL ().toString ();
-
         if (!newLink.equals (link))
         {
-            compulsoryStop (false);
-            download (newLink , question , fileSave);
+            newLink (newLink , question , fileSave);
+            return;
+        }
 
-            if (getInfo) onInfoLink.OnNewLink (newLink);
-            else on.OnNewLink (newLink);
-
+        final String location = connection.getHeaderField ("Location");
+        if (location != null && !location.isEmpty ())
+        {
+            newLink (location , question , fileSave);
             return;
         }
 
@@ -713,6 +715,15 @@ public final class Download
             print ("Cancel download.\n");
             close ();
         }
+    }
+
+    private void newLink (final String link , final boolean question , final File fileSave) throws Exception
+    {
+        compulsoryStop (false);
+        download (link , question , fileSave);
+
+        if (getInfo) onInfoLink.OnNewLink (link);
+        else on.OnNewLink (link);
     }
 
     private void onCancelDownload ()

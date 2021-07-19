@@ -7,8 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85f21288-a658-425c-8019-1966c9b2411c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/bardiademon.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Download_jar/Download.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download/META-INF/MANIFEST.MF" beforeDir="false" />
@@ -26,10 +24,7 @@
       <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/StringSpeedDownload.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Download/com/bardiademon/Downloder/bardiademon.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Bardiademon/Default.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Bardiademon/Default.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Dl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/Download.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/On.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/On.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/OnInfoLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bardiademon/Downloder/Download/OnInfoLink.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,7 +256,7 @@
       <workItem from="1625607890820" duration="692000" />
       <workItem from="1626437972137" duration="1167000" />
       <workItem from="1626441716524" duration="589000" />
-      <workItem from="1626683868855" duration="2925000" />
+      <workItem from="1626683868855" duration="3848000" />
     </task>
     <servers />
   </component>
